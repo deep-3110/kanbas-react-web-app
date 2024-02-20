@@ -1,42 +1,53 @@
-.wd-kanbas-navigation {
-    background-color: black;
-    list-style: none;
-    padding: 0px;  margin: 0px;
-    width: 80px;
-  }
-  .wd-kanbas-navigation li {
-    padding: 10px;     margin-bottom: 10px;
-    font-size: 0.8em;  text-align: center;
-  }
-  .wd-kanbas-navigation li.wd-active {
-    background-color: white;
-  }
-  .wd-kanbas-navigation li.wd-active a {
-    color: red;
-  }
-  .wd-kanbas-navigation a {
-    color: white;
-    text-decoration: none;
-  }
-  .wd-kanbas-navigation a i {
-    color: red;
-    font-size: 2em;
-    margin-bottom: 5px;
-  }
-  .wd-kanbas-navigation li.wd-account a {
-    color: white;
-  }
-  
-  .wd-kanbas-navigation li.wd-account i {
-    color: white;
-  }
-  .wd-kanbas-navigation li i.fa-question-circle {
-    display: block;
-  }
+/* index.css */
 
-  .wd-kanbas-navigation li i.fa-envelope-open-text {
-    display: block;
-  }
-  
-  
-  
+.wd-kanbas-navigation {
+  position: fixed;
+  height: 100%;
+  background-color: black;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 78px;
+}
+
+.wd-kanbas-navigation li {
+  padding: 6px;
+  margin-bottom: 3px;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.wd-kanbas-navigation li.wd-active {
+  background-color: white;
+  color: red;
+}
+
+.wd-kanbas-navigation li.wd-active a {
+  color: red;
+}
+
+.wd-kanbas-navigation a {
+  color: white;
+  text-decoration: none;
+}
+
+.wd-kanbas-navigation a i {
+  font-size: 2em;
+  margin-bottom: 3px;
+}
+
+.wd-account .fs-2 {
+  border-radius: 100%;
+  border-color: white;
+}
+.fs-2 {
+  color: red;
+}
+
+.wd-kanbas-navigation li .FaQuestionCircle.fs-2 {
+  display: block;
+}
+
+.wd-kanbas-navigation li .FaEnvelopeOpenText.fs-2 {
+  display: block;
+}

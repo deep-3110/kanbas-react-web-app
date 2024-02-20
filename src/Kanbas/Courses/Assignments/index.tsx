@@ -1,63 +1,49 @@
 import React from "react";
-import { FaCheckCircle, FaEllipsisV, FaPlusCircle } from "react-icons/fa";
+import { FaCaretDown, FaCheckCircle, FaEdit, FaEllipsisV, FaList, FaListAlt, FaPlus, FaPlusCircle, FaRegPlusSquare } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { assignments } from "../../Database";
-
 function Assignments() {
   const { courseId } = useParams();
   const assignmentList = assignments.filter(
-    (assignment) => assignment.course === courseId
-  );
-
+    (assignment) => assignment.course === courseId);
   return (
     <>
-      <div className="mb-3 row align-items-center">
-        <label htmlFor="assignmentSearch" className="col-form-label col-sm-auto"></label>
-        <div className="col">
-          <input type="text" className="form-control w-50" id="assignmentSearch" placeholder="Search for Assignment" />
-        </div>
-        <div className="col text-end">
-          <button className="">Group</button>
-          <button className="">Assignment</button>
-          <select className="">
-            <option>Edit Assignment Dates</option>
-            <option>Speed Grader</option>
-            <option>Duplicate</option>
-            <option>Delete</option>
-            <option>Move To...</option>
-            <option>Send To...</option>
-            <option>Copy To...</option>
-            <option>Share to Commons</option>
-          </select>
-        </div>
-      </div>
-
+    <div className="d-flex">
+    <div className="flex-fill">
+      <span>
+        <span className="float-end">
+          <button className="btn btn-outline-secondary"><FaPlus/> Group</button>
+          <button className="btn btn-danger"><FaPlus/> Assignment</button>
+          <button className="btn btn-outline-secondary"><FaEllipsisV/></button>
+        </span>
+        <input type="text" className="form-control w-50" id="assignmentSearch" placeholder="Search for Assignment"/>
+      </span>
+      <hr/>
       <ul className="list-group wd-modules">
         <li className="list-group-item">
           <div>
-            <FaEllipsisV className="me-2" /> ASSIGNMENTS
+            <FaEllipsisV className="me-2" /> <FaCaretDown className="me-2"/> ASSIGNMENTS
             <span className="float-end">
-              <FaCheckCircle className="text-success" />
+              <span className="border me-3" style={{borderRadius: 40, width: 120, textAlign: "center"}}>40% of Total</span>
               <FaPlusCircle className="ms-2" /><FaEllipsisV className="ms-2" />
             </span>
           </div>
           <ul className="list-group">
             {assignmentList.map((assignment) => (
-              <li className="list-group-item">
+              <li className="list-group-item" >
                 <FaEllipsisV className="me-2" />
-                <Link to={`/Kanbas/Courses/${courseId}/Assignments/${assignment._id}`}>
-                  {assignment.title}
-                </Link>
+                <FaEdit className="me-2"/>
+                <Link
+                   to={`/Kanbas/Courses/${courseId}/Assignments/${assignment._id}`}>{assignment.title}</Link>
                 <span className="float-end">
-                  <FaCheckCircle className="text-success" /><FaEllipsisV className="ms-2" />
-                </span>
-              </li>
-            ))}
+                  <FaCheckCircle className="text-success" /><FaEllipsisV className="ms-2" /></span><br/>
+                <span style={{fontSize: 10}}><a style={{color:"red"}}>{assignment.module}</a> | {assignment.due} | {assignment.points}</span>
+              </li>))}
           </ul>
         </li>
       </ul>
+      </div>
+      </div>
     </>
-  );
-}
-
+);}
 export default Assignments;

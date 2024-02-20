@@ -1,10 +1,10 @@
 .wd-navigation {
     background-color: white;
     list-style: none;
-    padding: 0px;
-    width: 125px;
+    padding: 20px;
+    width: 200px;
     margin: 0px;
-    margin-left: 20px;
+    margin-left: 80px;
   }
   .wd-navigation li {
     padding-left: 10px;
@@ -23,3 +23,10 @@
     color: red;
     text-decoration: none;
   }
+  .fs-1 {
+    float: right;
+    width: 0.5em;
+    height: 0.5em;
+    color: black;
+  }
+  

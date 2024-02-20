@@ -1,0 +1,28 @@
+.table-responsive {
+    overflow-x: auto;
+}
+
+.float-end {
+    float: right;
+}
+
+.input-group {
+    margin-bottom: 10px;
+}
+
+.input-group-text {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+.btn-outline-secondary {
+    border-radius: 0;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
