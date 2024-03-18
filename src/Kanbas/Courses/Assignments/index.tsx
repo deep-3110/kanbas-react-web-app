@@ -22,9 +22,10 @@ const handleNewAssignments = () => {
   navigate(`/Kanbas/Courses/${courseId}/Assignments/Editor`);
   
 };
-const handleDelete = () => {
+const handleDelete = (assignment: { _id: any; }) => {
   const isConfirmed = window.confirm('Are you sure you want to delete?');
   if (isConfirmed) {
+    console.log(assignment._id);
     dispatch(deleteAssignment(assignment._id))
   }
 };
@@ -59,13 +60,13 @@ const handleDelete = () => {
                 <Link
                    to={`/Kanbas/Courses/${courseId}/Assignments/${assignment._id}`}>{assignment.title}</Link>
                 <span className="float-end">
-                  <FaCheckCircle className="text-success" /><FaEllipsisV className="ms-2" /></span><br/>
-                <span style={{fontSize: 10}}><a style={{color:"red"}}>{assignment.module}</a> | {assignment.dueDate} | {assignment.points}</span>
-                <button
-           onClick={() => deleteAssignment(assignment._id)}>
+                  <FaCheckCircle className="text-success" /><FaEllipsisV className="ms-2" />  <button className="btn btn-danger"
+           onClick={() => handleDelete(assignment)}>
           Delete
         </button>
-
+</span><br/>
+                <span style={{fontSize: 10}}><a style={{color:"red"}}>{assignment.module}</a> | {assignment.dueDate} | {assignment.points}</span>
+              
               </li>))}
           </ul>
         </li>

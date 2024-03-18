@@ -8,7 +8,6 @@ import {Routes, Route, Navigate}
   from "react-router";
 function Labs() {
  return (
-  
   <Provider store={store}>
    <div>
     
@@ -21,6 +20,9 @@ function Labs() {
         element={<Assignment3/>}/>
        <Route path="a4"
         element={<Assignment4/>}/>
+        <Route path="/Labs/"
+        element={<Navigate
+                  to="a4"/>}/>
      </Routes>
      
    </div>
