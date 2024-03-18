@@ -3,47 +3,51 @@ import { assignments } from "../../Database";
 
 
 const initialState = {
-  modules: assignments,
-  module: {  title: "Propulsion Assignment",
+  assignments: assignments,
+  assignment: {  title: "Propulsion2 Assignment",
+  dueDate: "09/01/2020",
+  availableUntilDate:"10/09/2020",
+  availableFromDate:"10/09/2021",
+  description:"This is a Assignment",
   course: "RS101",
   module: "Multiple Modules",
   due: "Due Feb 15 at 11:59pm",
-  points: "100 pts"
-},
+  points: "100"
+}
 };
 
 
-const modulesSlice = createSlice({
-  name: "modules",
+const assignmentSlice = createSlice({
+  name: "assignments",
   initialState,
   reducers: {
-    addModule: (state, action) => {
-      state.modules = [
+    addAssignment: (state, action) => {
+      state.assignments = [
+        ...state.assignments,
         { ...action.payload, _id: new Date().getTime().toString() },
-          ...state.modules,
       ];
     },
-    deleteModule: (state, action) => {
-      state.modules = state.modules.filter(
-        (module) => module._id !== action.payload
+    deleteAssignment: (state, action) => {
+      state.assignments = state.assignments.filter(
+        (assignment) => assignment._id !== action.payload
       );
+      
     },
-    updateModule: (state, action) => {
-      state.modules = state.modules.map((module) => {
-        if (module._id === action.payload._id) {
+    updateAssignment: (state, action) => {
+      state.assignments = state.assignments.map((assignment) => {
+        if (assignment._id === action.payload._id) {
           return action.payload;
         } else {
-          return module;
+          return assignment;
         }
       });
     },
-    setModule: (state, action) => {
-      state.module = action.payload;
+    selectAssignment: (state, action) => {
+      state.assignment = action.payload;
     },
   },
 });
 
-
-export const { addModule, deleteModule,
-  updateModule, setModule } = modulesSlice.actions;
-export default modulesSlice.reducer;
+export const { addAssignment, deleteAssignment,
+  updateAssignment, selectAssignment } = assignmentSlice.actions;
+export default assignmentSlice.reducer;

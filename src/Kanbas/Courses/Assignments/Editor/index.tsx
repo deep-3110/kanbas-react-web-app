@@ -2,14 +2,40 @@ import React from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { assignments } from "../../../Database";
 import { FaCheckCircle, FaEllipsisV } from "react-icons/fa";
+import { KanbasState } from "../../../store";
+import {
+    addAssignment,
+    deleteAssignment,
+    updateAssignment,
+    selectAssignment,
+  } from "../assignmentReducer";
+  
+
+import { useSelector, useDispatch } from "react-redux";
 function AssignmentEditor() {
   const { assignmentId } = useParams();
-  const assignment = assignments.find(
-    (assignment) => assignment._id === assignmentId);
+
+  const assignmentList = useSelector((state: KanbasState) => 
+  state.assignmentsReducer.assignments);
+const assignment = useSelector((state: KanbasState) => 
+  state.assignmentsReducer.assignment);
+const dispatch = useDispatch();
+
   const { courseId } = useParams();
   const navigate = useNavigate();
+  const isEditing = !!assignmentId;
   const handleSave = () => {
-    console.log("Actually saving assignment TBD in later assignments");
+    if (isEditing) {
+      dispatch(updateAssignment(assignmentId));
+      console.log("We Are dispatching");
+    } else {
+      dispatch(addAssignment(assignment));
+      console.log("We Are Adding");
+    }
+    navigate(`/Kanbas/Courses/${courseId}/Assignments`);
+  };
+
+  const handleCancel = () => {
     navigate(`/Kanbas/Courses/${courseId}/Assignments`);
   };
   return (
@@ -21,18 +47,24 @@ function AssignmentEditor() {
         <hr/>  
         <div className="mb-3">
             <h2>Assignment Name</h2>
-            <input value={assignment?.title} className="form-control mb-2" />
+            <input value={assignment.title} onChange={(e) =>
+            dispatch(selectAssignment({ ...assignment, title: e.target.value }))
+          } className="form-control mb-2" />
         </div>
         <div className="mb-3 row">
             <div className="col-md-6">
-                <textarea className="form-control" id="assignmentDescription">This is the assignment description.</textarea>
+                <textarea className="form-control" id="assignmentDescription"  value={assignment.description} onChange={(e) =>
+            dispatch(selectAssignment({ ...assignment, description: e.target.value }))
+          }  ></textarea>
             </div>
         </div>
             
         <div className="mb-3 row">
             <label htmlFor="points" className="form-label col-sm-2">Points</label>
             <div className="col-md-4">
-                <input type="number" className="form-control" id="points" value="100"/>
+                <input type="number" value = {assignment.points} className="form-control" id="points" onChange={(e) =>
+            dispatch(selectAssignment({ ...assignment, points: e.target.value }))
+          } />
             </div>
         </div>
             
@@ -75,17 +107,27 @@ function AssignmentEditor() {
                     </div>
                     <div className="list-group-item">
                         <label htmlFor="dueDate" className="form-label">Due Date</label>
-                        <input type="date" className="form-control" value="2020-09-01" />
+                        <input type="date" className="form-control"  value={new Date(assignment.dueDate).toISOString().split('T')[0]}
+   onChange={(e) =>
+            dispatch(selectAssignment({ ...assignment, dueDate: e.target.value }))
+          } />
+
                     </div>
                     <div className="list-group-item">
                         <div className="row">
                             <div className="col-md-6">
                                 <label htmlFor="availableFrom" className="form-label">Available from</label>
-                                <input type="date" className="form-control" value="2020-09-01" />
+                                <input type="date" className="form-control"  value={new Date(assignment.availableFromDate).toISOString().split('T')[0]}
+   onChange={(e) =>
+            dispatch(selectAssignment({ ...assignment, availableFromDate: e.target.value }))
+          } />
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor="until" className="form-label">Until</label>
-                                <input type="date" className="form-control" value="2020-09-01" />
+                                <input type="date" className="form-control"  value={new Date(assignment.availableUntilDate).toISOString().split('T')[0]}
+  onChange={(e) =>
+            dispatch(selectAssignment({ ...assignment, availableUntilDate: e.target.value }))
+          } />
                             </div>
                         </div>
                     </div>
