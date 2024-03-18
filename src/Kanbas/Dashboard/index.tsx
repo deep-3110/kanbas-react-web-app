@@ -21,14 +21,15 @@ return (
              onChange={(e) => setCourse({ ...course, startDate: e.target.value }) }/>
       <input value={course.endDate} className="form-control" type="date"
              onChange={(e) => setCourse({ ...course, endDate: e.target.value }) } />
-      <button onClick={addNewCourse} >
+             <br></br>
+      <button  className="btn btn-success" onClick={addNewCourse} >
         Add
       </button>
 
-      <button onClick={updateCourse} >
+      <button className="btn btn-primary" onClick={updateCourse} >
         Update
       </button>
-
+  
       <hr/>
       <h3>Published Courses (12)</h3> <hr />
       <div className="row">
@@ -42,23 +43,25 @@ return (
                   <Link className="card-title" to={`/Kanbas/Courses/${course._id}/Home`}
                     style={{ textDecoration: "none", color: "navy", fontWeight: "bold" }}>
                     {course.name} 
-                    <button onClick={(event) => {
+                  
+                    </Link>
+                  <p className="card-text">{course.name}</p>
+                  <Link to={`/Kanbas/Courses/${course._id}/Home`} className="btn btn-primary">
+                    Go </Link>
+
+                    <button className = "btn btn-primary" onClick={(event) => {
                 event.preventDefault();
                 setCourse(course);
               }}>
               Edit
             </button>
 
-                    <button onClick={(event) => {
+                    <button className = "btn btn-danger" onClick={(event) => {
                         event.preventDefault();
                         deleteCourse(course._id);
                       }}>
                       Delete
               </button>
-                    </Link>
-                  <p className="card-text">{course.name}</p>
-                  <Link to={`/Kanbas/Courses/${course._id}/Home`} className="btn btn-primary">
-                    Go </Link>
                 </div>
               </div>
             </div>

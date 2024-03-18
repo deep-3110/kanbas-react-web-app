@@ -23,10 +23,12 @@ const dispatch = useDispatch();
 
   const { courseId } = useParams();
   const navigate = useNavigate();
-  const isEditing = !!assignmentId;
-  const handleSave = () => {
+  
+  const handleSave = (assignment: { _id: any; }) => {
+    console.log(assignment._id);
+    const isEditing = !!assignment._id;
     if (isEditing) {
-      dispatch(updateAssignment(assignmentId));
+      dispatch(updateAssignment(assignment._id));
       console.log("We Are dispatching");
     } else {
       dispatch(addAssignment(assignment));
@@ -145,7 +147,7 @@ const dispatch = useDispatch();
           <label className="form-check-label" htmlFor="checkbox">Notify users that this content has changed</label>
         </div>
         <div className="col-sm-4 text-end">
-        <button onClick={handleSave} className="btn btn-success ms-2 float-end">
+        <button onClick={() => handleSave(assignment)} className="btn btn-success ms-2 float-end">
         Save
       </button>
       <Link to={`/Kanbas/Courses/${courseId}/Assignments`}
