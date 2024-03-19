@@ -4,7 +4,7 @@ import { assignments } from "../../Database";
 
 const initialState = {
   assignments: assignments,
-  assignment: {  title: "Propulsion2 Assignment",
+  assignment: {  title: "New Assignment",
   dueDate: "09/01/2020",
   availableUntilDate:"10/09/2020",
   availableFromDate:"10/09/2021",
