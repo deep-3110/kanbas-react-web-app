@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { assignments } from "../../../Database";
+
 import { FaCheckCircle, FaEllipsisV } from "react-icons/fa";
 import { KanbasState } from "../../../store";
 import {
@@ -17,31 +17,54 @@ function AssignmentEditor() {
 
   const assignmentList = useSelector((state: KanbasState) => 
   state.assignmentsReducer.assignments);
-const assignment = useSelector((state: KanbasState) => 
-  state.assignmentsReducer.assignment);
+const assignment = useSelector((state: KanbasState) => state.assignmentsReducer.assignment);
+console.log(assignment)
 const dispatch = useDispatch();
 
   const { courseId } = useParams();
   const navigate = useNavigate();
   
-  const handleSave = (assignment: { _id: any; }) => {
-    console.log(assignment._id);
-    const isEditing = !!assignment._id;
-    if (isEditing) {
-      dispatch(updateAssignment(assignment._id));
-      console.log("We Are dispatching");
-    } else {
-      dispatch(addAssignment(assignment));
-      console.log("We Are Adding");
+  function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+  }
+const handleSave = () => {
+    const updatedAssignment = { ...assignment }; 
+    const isEditing = !!assignment._id; 
+  
+    if (!isEditing) {
+      updatedAssignment._id = generateUniqueId();
     }
+    const initialState = {
+      assignment: {
+        title: "Propulsion2 Assignment",
+        dueDate: "09/01/2020",
+        availableUntilDate: "10/09/2020",
+        availableFromDate: "10/09/2021",
+        description: "This is a Assignment",
+        course: "RS101",
+        module: "Multiple Modules",
+        due: "Due Feb 15 at 11:59pm",
+        points: "100"
+      }
+    };
+    console.log(assignment._id);
+    if (isEditing) {
+      dispatch(updateAssignment(updatedAssignment));
+      console.log("Updated Assignment:", updatedAssignment);
+    } else {
+      dispatch(selectAssignment(initialState.assignment));
+      dispatch(addAssignment({ ...updatedAssignment, course: courseId }));
+      console.log("Added Assignment:", updatedAssignment);
+    }
+ 
     navigate(`/Kanbas/Courses/${courseId}/Assignments`);
-  };
+      };
 
   const handleCancel = () => {
     navigate(`/Kanbas/Courses/${courseId}/Assignments`);
   };
   return (
-    <div className="flex-fill">
+   <div className="flex-fill">
         <span className="float-end">
             <FaCheckCircle className="text-success"/> Published
             <button className="btn btn-outline-secondary"><FaEllipsisV/></button>
@@ -55,18 +78,14 @@ const dispatch = useDispatch();
         </div>
         <div className="mb-3 row">
             <div className="col-md-6">
-                <textarea className="form-control" id="assignmentDescription"  value={assignment.description} onChange={(e) =>
-            dispatch(selectAssignment({ ...assignment, description: e.target.value }))
-          }  ></textarea>
+                <textarea className="form-control" id="assignmentDescription"  value={assignment.description} ></textarea>
             </div>
         </div>
             
         <div className="mb-3 row">
             <label htmlFor="points" className="form-label col-sm-2">Points</label>
             <div className="col-md-4">
-                <input type="number" value = {assignment.points} className="form-control" id="points" onChange={(e) =>
-            dispatch(selectAssignment({ ...assignment, points: e.target.value }))
-          } />
+                <input type="number" value = {assignment.points} className="form-control" id="points"  />
             </div>
         </div>
             
@@ -110,9 +129,7 @@ const dispatch = useDispatch();
                     <div className="list-group-item">
                         <label htmlFor="dueDate" className="form-label">Due Date</label>
                         <input type="date" className="form-control"  value={new Date(assignment.dueDate).toISOString().split('T')[0]}
-   onChange={(e) =>
-            dispatch(selectAssignment({ ...assignment, dueDate: e.target.value }))
-          } />
+   />
 
                     </div>
                     <div className="list-group-item">
@@ -120,16 +137,12 @@ const dispatch = useDispatch();
                             <div className="col-md-6">
                                 <label htmlFor="availableFrom" className="form-label">Available from</label>
                                 <input type="date" className="form-control"  value={new Date(assignment.availableFromDate).toISOString().split('T')[0]}
-   onChange={(e) =>
-            dispatch(selectAssignment({ ...assignment, availableFromDate: e.target.value }))
-          } />
+ />
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor="until" className="form-label">Until</label>
                                 <input type="date" className="form-control"  value={new Date(assignment.availableUntilDate).toISOString().split('T')[0]}
-  onChange={(e) =>
-            dispatch(selectAssignment({ ...assignment, availableUntilDate: e.target.value }))
-          } />
+  />
                             </div>
                         </div>
                     </div>
@@ -141,23 +154,27 @@ const dispatch = useDispatch();
             </div>
         </div>
       <hr/>
+   
       <div className="mb-3 row">
         <div className="col-sm-8">
           <input type="checkbox" className="form-check-input" id="checkbox" name="online-entry-options"/>
           <label className="form-check-label" htmlFor="checkbox">Notify users that this content has changed</label>
         </div>
         <div className="col-sm-4 text-end">
-        <button onClick={() => handleSave(assignment)} className="btn btn-success ms-2 float-end">
+        <button onClick={handleSave} className="btn btn-success ms-2 float-end">
         Save
       </button>
       <Link to={`/Kanbas/Courses/${courseId}/Assignments`}
             className="btn btn-danger float-end">
         Cancel
       </Link>
+      
         </div>
       </div>
+    
       <hr/>
     </div>
   );
 }
+
 export default AssignmentEditor;

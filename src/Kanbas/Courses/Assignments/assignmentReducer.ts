@@ -43,6 +43,7 @@ const assignmentSlice = createSlice({
       });
     },
     selectAssignment: (state, action) => {
+      console.log(action.payload)
       state.assignment = action.payload;
     },
   },

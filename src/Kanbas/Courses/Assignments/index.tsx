@@ -18,10 +18,26 @@ const assignment = useSelector((state: KanbasState) =>
   state.assignmentsReducer.assignment);
 const dispatch = useDispatch();  
 const navigate = useNavigate();
-const handleNewAssignments = () => {
-  navigate(`/Kanbas/Courses/${courseId}/Assignments/Editor`);
-  
+const randomID = generateUniqueId();
+const initialState = {
+  assignment: {
+    title: "New Assignment",
+    dueDate: "09/01/2020",
+    availableUntilDate: "10/09/2020",
+    availableFromDate: "10/09/2021",
+    description: "This is a Assignment",
+    course: "RS101",
+    module: "Multiple Modules",
+    due: "Due Feb 15 at 11:59pm",
+    points: "100"
+  }
 };
+const handleNewAssignments = () => {
+  navigate(`/Kanbas/Courses/${courseId}/Assignments/NewEditor`);
+};
+function generateUniqueId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+}
 const handleDelete = (assignment: { _id: any; }) => {
   const isConfirmed = window.confirm('Are you sure you want to delete?');
   if (isConfirmed) {
@@ -30,6 +46,7 @@ const handleDelete = (assignment: { _id: any; }) => {
   }
 };
   const { courseId } = useParams();
+  
   return (
     <>
     <div className="d-flex">
@@ -37,8 +54,9 @@ const handleDelete = (assignment: { _id: any; }) => {
       <span>
         <span className="float-end">
           <button className="btn btn-outline-secondary"><FaPlus/> Group</button>
-          <button className="btn btn-danger" onClick={handleNewAssignments}><FaPlus/> Assignment</button>
+          <Link  to={`/Kanbas/Courses/${courseId}/Assignments/Editor`}  onClick={() => dispatch(selectAssignment(initialState.assignment))} ><FaPlus/> Assignment</Link>
           <button className="btn btn-outline-secondary"><FaEllipsisV/></button>
+
         </span>
         <input type="text" className="form-control w-50" id="assignmentSearch" placeholder="Search for Assignment"/>
       </span>
@@ -58,7 +76,11 @@ const handleDelete = (assignment: { _id: any; }) => {
                 <FaEllipsisV className="me-2" />
                 <FaEdit className="me-2"/>
                 <Link
-                   to={`/Kanbas/Courses/${courseId}/Assignments/${assignment._id}`}>{assignment.title}</Link>
+                  key={assignment._id}
+                   to={`/Kanbas/Courses/${courseId}/Assignments/${assignment._id}`} 
+                   onClick={() => dispatch(selectAssignment(assignment))}>
+                    {assignment.title}
+                    </Link>
                 <span className="float-end">
                   <FaCheckCircle className="text-success" /><FaEllipsisV className="ms-2" />  <button className="btn btn-danger"
            onClick={() => handleDelete(assignment)}>
